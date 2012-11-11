@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml lang="en">
+
+<stream basetime="npt:0.000">
+<import contenttype="video/mpeg" src="fish.mpg" start="npt:0.000"/>
+</stream>
+

@@ -1,0 +1,96 @@
+.\" $Header: /aolnet/dev/src/CVS/sgml/docbook-to-man/cmd/docbook-to-man.sh,v 1.1.1.1 1998/11/13 21:31:59 db3l Exp $
+.\"
+.\"	transcript compatibility for postscript use.
+.\"
+.\"	synopsis:  .P! <file.ps>
+.\"
+.de P!
+.fl
+\!!1 setgray
+.fl
+\\&.\"
+.fl
+\!!0 setgray
+.fl			\" force out current output buffer
+\!!save /psv exch def currentpoint translate 0 0 moveto
+\!!/showpage{}def
+.fl			\" prolog
+.sy sed -e 's/^/!/' \\$1\" bring in postscript file
+\!!psv restore
+.
+.de pF
+.ie     \\*(f1 .ds f1 \\n(.f
+.el .ie \\*(f2 .ds f2 \\n(.f
+.el .ie \\*(f3 .ds f3 \\n(.f
+.el .ie \\*(f4 .ds f4 \\n(.f
+.el .tm ? font overflow
+.ft \\$1
+..
+.de fP
+.ie     !\\*(f4 \{\
+.	ft \\*(f4
+.	ds f4\"
+'	br \}
+.el .ie !\\*(f3 \{\
+.	ft \\*(f3
+.	ds f3\"
+'	br \}
+.el .ie !\\*(f2 \{\
+.	ft \\*(f2
+.	ds f2\"
+'	br \}
+.el .ie !\\*(f1 \{\
+.	ft \\*(f1
+.	ds f1\"
+'	br \}
+.el .tm ? font underflow
+..
+.ds f1\"
+.ds f2\"
+.ds f3\"
+.ds f4\"
+'\" t 
+.ta 8n 16n 24n 32n 40n 48n 56n 64n 72n  
+.TH "cmml-timeshift" "1" 
+.SH "NAME" 
+cmml-timeshift \(em       Apply a timeshift to all the clip tags. 
+ 
+.SH "SYNOPSIS" 
+.PP 
+\fBcmml-timeshift\fR [-o \fBfile\fR  | --output \fBfile\fR ]  [-s \fBoffset\fR  | --sec \fBoffset\fR ]  [-h  | --help ]  [-v  | --version ] filename  
+.SH "Description" 
+.PP 
+\fBcmml-timeshift\fR parses a CMML instance document 
+given as \fBfilename\fR, applies a timeshift 
+to the start and end times of the clip tags and creates a 
+CMML instance document from it, which gets written to stdout 
+by default. Clip tags that would receive negative start times 
+are skipped. In case of a non-recoverable error upon parsing, the 
+faulty tag including line and column number is reported. 
+ 
+.SH "Options" 
+.PP 
+\fBcmml-timeshift\fR accepts the following options: 
+ 
+.IP "-o \fBfile\fR, --output \fBfile\fR" 10 
+Output file. Writes fixed CMML document to the 
+given \fBfile\fR instead of stdout, which is the 
+default. 
+.IP "-s \fBoffset\fR, --sec \fBoffset\fR" 10 
+Timeshift offset in seconds. Shifts the start- and 
+endtime of the clip tags by \fBoffset\fR seconds. 
+ 
+.IP "-h, --help" 10 
+Print usage message. 
+.IP "-v, --version" 10 
+Print version information. 
+.SH "VERSION" 
+.PP 
+This man page is correct for CMML version 2.1 and libcmml 
+version 0.9.0. 
+ 
+.SH "SEE ALSO" 
+.PP 
+More information is available at: 
+\fIAnnodex.net (link to URL http://www.annodex.net/) \fR    
+.\" created by instant / docbook-to-man, Mon 18 Apr 2005, 11:26 

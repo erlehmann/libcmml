@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml>
+
+<stream id="a1" basetime="npt:100.300" utc="20021222T221005Z">
+<import id="a2" granulerate="1000" contenttype="audio/x-wav" src="00-3-10.wav" start="npt:100.300"/>
+</stream>
+
+<head lang="en">
+<title>
+Do we take water for granted?
+</title>
+<base href="http://www.cmis.csiro.au/cmweb/media/"/>
+<meta name="DESCRIPTION" content="A project studying the impact of urban water usage on the environment"/>
+<meta name="KEYWORDS" content="Water, Environment"/>
+<meta name="TYPE" content="audio interview"/>
+<meta name="DATE.PUBLISHED" content="2000-03"/>
+<meta name="INTERVIEWEE" content="Mike Young"/>
+</head>
+

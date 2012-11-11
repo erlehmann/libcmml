@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml lang="en" dir="ltr" id="simple" granulerate="1000/1">
+
+<stream id="fish" basetime="0">
+  <import id="videosrc" lang="en" dir="ltr" title="Video fish" 
+          granulerate="25/1" contenttype="video/mpeg" 
+          src="fish.mpg" start="0" end="360">
+    <param id="vheight" name="video.height" value="250"/>
+    <param id="vwidth"  name="video.width"  value="180"/>
+  </import>
+</stream>
+
+<head>
+  <title>Types of fish</title>
+  <meta name="Producer" content="Joe Ordinary"/>
+  <meta name="DC.Author" content="Joe's friend"/>
+</head>
+
+<clip id="intro" start="0">
+  <a href="http://www.blah.au/fish.html">Read more about fish</a>
+  <desc>This is the introduction to the film Joe made about fish.</desc>
+</clip>
+
+<clip id="dolphin" start="npt:3.5" end="npt:5:5.9">
+  <img src="dolphin.jpg"/>
+  <desc>Here, Joe caught sight of a dolphin in the ocean.</desc>
+  <meta name="Subject" content="dolphin"/>
+</clip>
+
+<clip id="goldfish" start="npt:5:5.9">
+  <a href="http://www.blah.au/morefish.anx?id=goldfish">More video clips on goldfish.</a>
+  <img src="http://www.blah.au/goldfish.jpg"/>
+  <desc>Joe has a fishtank at home with many colourful fish. The common goldfish is one of them and Joe's favourite. Here are some fabulous pictures he has taken of them.</desc>
+  <meta name="Location" content="Joe's fishtank"/>
+  <meta name="Subject" content="goldfish"/>
+</clip>
+
+</cmml>

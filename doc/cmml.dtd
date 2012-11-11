@@ -1,0 +1,350 @@
+<!--
+
+  Continuous Media Markup Language CMML version 2.1 DTD
+  Authoring language for ANNODEX(TM) media.
+
+  Namespace = http://www.annodex.net/cmml
+
+  Copyright (c) 2001- 
+  Commonwealth Scientific and Industrial Research Organisation
+  (CSIRO), Australia.
+  All Rights Reserved. 
+
+  This DTD module is identified by the PUBLIC and SYSTEM identifiers:
+
+  PUBLIC "-//CSIRO//DTD CMML 2.1//EN"
+  SYSTEM "http://www.annodex.net/DTD/cmml_2_1.dtd"
+
+  $Revision: 2.1 $
+  $Date: 2006/03/04 24:00:00 $
+-->
+
+<!-- **************************** -->
+<!-- Definition of Imported Names -->
+<!-- **************************** -->
+
+<!-- media type, as per [RFC2045] -->
+<!ENTITY % ContentType "CDATA">
+ 
+<!-- space-separated list of link types -->
+<!ENTITY % LinkTypes "CDATA">
+
+<!-- single or comma-separated list of media descriptors -->
+<!ENTITY % MediaDesc "CDATA">
+
+<!-- used for titles etc. -->
+<!ENTITY % Text "CDATA">
+
+<!-- a Uniform Resource Identifier, see [RFC2396] -->
+<!ENTITY % URI "CDATA">
+
+<!-- a language code, as per [RFC1766] -->
+<!ENTITY % LanguageCode "NMTOKEN">
+
+<!-- timestamps similar to [RFC2326] 
+ "smpte-24:" SMPTE time with a 24 fps basis
+ "smpte-24-drop:" SMPTE time with a 24/1.001 fps basis
+ "smpte-25:" SMPTE time with a 25 fps basis
+ "smpte-30:" SMPTE time with a 30 fps basis
+ "smpte-30-drop:" SMPTE time with a 30/1.001 fps basis
+ "smpte-50:" SMPTE time with a 50 fps basis
+ "smpte-60:" SMPTE time with a 60 fps basis
+ "smpte-60-drop:" SMPTE time with a 60/1.001 fps basis
+ "npt:" npt-time
+ "clock:" utc-time
+
+ Playbacktime is specified as a smpte-time 
+ or npt-time only.
+
+ UTCtime is specified as in [RFC2326], but
+ without the "clock" identifier
+-->
+<!ENTITY % Timestamp    "CDATA">
+<!ENTITY % Playbacktime "CDATA">
+<!ENTITY % UTCtime      "CDATA">
+
+
+<!-- ******************************** -->
+<!-- Definition of Generic Attributes -->
+<!-- ******************************** -->
+
+<!-- core attributes common to most displayable elements
+  id       document-wide unique id
+  class    space separated list of classes
+  title    advisory title/amplification
+-->
+<!ENTITY % coreattrs
+ "id          ID                #IMPLIED
+  class       CDATA             #IMPLIED
+  title       %Text;            #IMPLIED"
+  >
+
+<!-- internationalization attributes
+  xml:lang    language code (as per XML 1.0 spec)
+  dir         direction for weak/neutral text
+-->
+<!ENTITY % i18n
+ "lang        %LanguageCode; #IMPLIED
+  dir         (ltr|rtl)      #IMPLIED"
+  >
+
+<!ENTITY % attrs "%coreattrs; %i18n;">
+
+
+<!-- **************************** -->
+<!-- Document Structure           -->
+<!-- **************************** -->
+
+<!-- ROOT ELEMENT: -->
+<!-- cmml tag containing sequence of head and a tags -->
+<!-- =============================================== -->
+<!-- i18n  = the default language for the whole document including
+             the id tag of the cmml element -->
+<!-- xmlns = namespace of the cmml tags -->
+<!-- granulerate = the base temporal resolution to be used for the
+                   cmml bitstream -->
+<!ELEMENT cmml (stream?, head, clip*)>
+<!ATTLIST cmml
+  %i18n;
+  id          ID             #IMPLIED
+  xmlns       %URI;          #FIXED 'http://www.annodex.net/cmml'
+  granulerate CDATA          #IMPLIED
+  >
+
+
+<!-- **************************** -->
+<!-- Definition of stream element -->
+<!-- **************************** -->
+
+<!-- STREAM tag providing timing information for the ANNODEX file -->
+<!-- (will be stored in the binary headers of the ANX bitstreams) -->
+<!-- ============================================================ -->
+<!-- (has no text attributes and thus no i18n; id tag follows default 
+      language specified in cmml tag) -->
+<!-- basetime  = base time associated with the first frame of the
+                 media document from which subsequent time references
+                 (such as in clip tags) will be taken relative to -->
+<!-- timebase  = same as basetime; kept for backwards compatibility;
+                 deprecated and will not be used in versions>=3.0 -->
+<!-- utc       = a mapping of the first frame to clock time; 
+                 specifications of utc time offsets into the document
+                 as in a URI will be taken relative to this -->
+<!ELEMENT stream (import*)>
+<!ATTLIST stream
+  id          ID             #IMPLIED
+  basetime    %Playbacktime; "0"
+  timebase    %Playbacktime; "0"
+  utc         %UTCtime;      #IMPLIED
+  >
+
+<!-- IMPORT tag giving descriptions on an input bitstream
+     (empty content)                                              -->
+<!-- ============================================================ -->
+<!-- i18n        = the language of the import tag's and the contained
+                   param tags' attribute values -->
+<!-- title       = human readable comment on the import bitstream -->
+<!-- granulerate = the base temporal resolution of the bitstream
+                   (e.g. its framerate for video or samplerate for
+                   audio) -->
+<!-- contenttype = encoding format of the input document (a MIME type
+                   and a character encoding separated by semicolon)
+                   -->
+<!-- src         = URI to the media document -->
+<!-- start       = the start time of the media bitstream specified
+                   in src -->
+<!-- end         = the end time of the media bitstream specified
+                   in src -->
+<!ELEMENT import (param*)>
+<!ATTLIST import 
+  %i18n;
+  id          ID             #IMPLIED
+  title       %Text;         #IMPLIED
+  granulerate CDATA          #IMPLIED
+  contenttype %ContentType;  #IMPLIED
+  src         %URI;          #REQUIRED
+  start       %Timestamp;    "0"
+  end         %Timestamp;    #IMPLIED
+  >
+
+<!-- PARAM description tags of an input bitstream (empty content) -->
+<!-- (name-value pairs e.g. comments on recording quality or so)  -->
+<!-- ============================================================ -->
+<!-- (internationalisation inherited from the parent import tag)  -->
+<!-- name  = identifies a property name; does not list legal values
+             for this attribute --> 
+<!-- value = specifies a property's value; does not list legal values
+             for this attribute -->
+<!ELEMENT param EMPTY>
+<!ATTLIST param
+  id          ID             #IMPLIED
+  name        CDATA          #REQUIRED
+  value       CDATA          #REQUIRED
+  >
+
+
+<!-- **************************** -->
+<!-- Definition of document head  -->
+<!-- **************************** -->
+
+<!-- head tag containing description of a specific media stream -->
+<!-- ========================================================== -->
+<!-- i18n    = the base language of the head's attribute values
+               and text content -->
+<!-- profile = space-separated list of URIs to locate meta tag
+               schemes -->
+
+<!-- content model is %head.misc; combined with a single
+     title and an optional base element in any order -->
+<!ENTITY % head.misc "(meta|link)*">
+<!ELEMENT head (%head.misc;,
+                ((title, %head.misc;, (base, %head.misc;)?) |
+                 (base, %head.misc;, (title, %head.misc;))))>
+<!ATTLIST head
+  %i18n;
+  id          ID             #IMPLIED
+  profile     %URI;          #IMPLIED
+  >
+
+<!-- TITLE tag giving descriptive title of the media document  -->
+<!-- ========================================================= -->
+<!-- i18n  = the language of the title text -->
+<!ELEMENT title (#PCDATA)>
+<!ATTLIST title 
+  %i18n;
+  id          ID             #IMPLIED
+  >
+
+
+<!-- BASE URI of the document (empty content) --> 
+<!-- ======================================== -->
+<!-- (internationalisation inherited from the parent head tag) -->
+<!-- href = URI associated with the document; all relative URI
+            references get interpreted relative to this base -->
+<!ELEMENT base EMPTY>
+<!ATTLIST base
+  id          ID             #IMPLIED
+  href        %URI;          #REQUIRED
+  >
+
+<!-- META description tags of the document (empty content) -->
+<!-- ===================================================== -->
+<!-- i18n    = the language of the meta attributes -->
+<!-- name    = identifies a property name; does not list legal
+               values for this attribute --> 
+<!-- content = specifies a property's value; does not list legal
+               values for this attribute -->
+<!-- scheme  = names a scheme to be used to interpret the property's
+               value (see the profiles tag in the head element for
+               locating these) -->
+<!ELEMENT meta EMPTY>
+<!ATTLIST meta
+  %i18n;
+  id          ID             #IMPLIED
+  name        NMTOKEN        #IMPLIED
+  content     CDATA          #REQUIRED
+  scheme      CDATA          #IMPLIED
+  >
+
+<!-- LINK tag to specify relationship values (empty content) --> 
+<!-- ======================================================= -->
+<!-- Relationship values can be used in principle:
+     a) for document specific toolbars/menus when used
+        with the link element in document head e.g.
+        start, contents, previous, next, index, end, help
+     b) to link to a separate style sheet (rel="stylesheet")
+     As charsets are given in the xml directive of cmml documents,
+     this attribute of html is not required for cmml.
+  -->
+<!-- attrs = the language of the title text; a short description of
+             the relationship through title, and the stylesheet class
+             -->
+<!-- href  = reference to a related document -->
+<!-- type  = type of the document referenced, e.g. "text/css" -->
+<!-- rel   = type of relationship to forward linked document -->
+<!-- rev   = type of relationship to reverse linked document -->
+<!-- media = type or medium/media to be rendered on, default "screen"
+             -->
+
+<!ELEMENT link EMPTY>
+<!ATTLIST link
+  %attrs;
+  href        %URI;          #IMPLIED
+  type        %ContentType;  #IMPLIED
+  rel         %LinkTypes;    #IMPLIED
+  rev         %LinkTypes;    #IMPLIED
+  media       %MediaDesc;    #IMPLIED
+  >
+
+
+<!-- ************************** -->
+<!-- Definition of clip tags    -->
+<!-- ************************** -->
+
+<!-- Clip tag containing information for a specific fragment -->
+<!-- ======================================================= -->
+<!-- through meta, a, img and desc are given in specific order
+     here, their order is acutally random -->
+<!-- attrs    = the base language of the clip's attribute values and 
+                of its content elements; a short title representing
+                the anchor (e.g. in tooltips) -->
+<!-- track    = defines different sets of clip tags; clip tags of
+                same type cannot overlap temporally -->
+<!-- start    = specifies the start time of the clip; specified in 
+               time relative to the basetime of the header 
+                [NOT INCLUDED IN ANNODEXED DOCUMENT] -->
+<!-- end      = specifies the end time of the clip; specified in 
+                time relative to the basetime of the header 
+                [NOT INCLUDED IN ANNODEXED DOCUMENT] -->
+
+<!ELEMENT clip (meta*, a?, img?, desc?)>
+<!ATTLIST clip
+  %attrs;
+  track       CDATA          "default"
+  start       %Timestamp;    #REQUIRED
+  end         %Timestamp;    #IMPLIED
+  >
+
+<!-- A tag containing information for a specific clip -->
+<!-- ================================================ -->
+<!-- a tag contains anchor text being a textual description of the
+     link between the current element (the source anchor) and the
+     destination anchor given by the href attribute -->
+<!-- attrs    = the base language of the clip's attribute values
+                and of its content elements; the stylesheet class
+                attribute; a short title representing the anchor
+                (e.g. in tooltips) -->
+<!-- href     = specifies the location of a Web resource, thus
+                defining a link between the current element (the
+                source anchor) and the destination anchor given by
+                this attribute -->
+<!ELEMENT a (#PCDATA)>
+<!ATTLIST a
+  %attrs;
+  href        %URI;          #REQUIRED
+  >
+
+<!-- IMG tag to include a representative image for the clip -->
+<!-- ====================================================== -->
+<!-- attrs = the language of the image's attribute values;
+             the stylesheet class attribute; a short title
+             representing the image (e.g. in tooltips) -->
+<!-- src   = reference to the image                          -->
+<!-- alt   = alternative text for the image (accessibility)  -->
+<!ELEMENT img EMPTY>
+<!ATTLIST img
+  %attrs;
+  src         %URI;          #REQUIRED
+  alt         CDATA          #IMPLIED
+  >
+
+<!-- DESC human-readable, textual description of the clip
+     (annotation)                                            -->
+<!-- ======================================================= -->
+<!-- attrs    = the base language of the data in the
+                description; the class & style attributes;
+                a short title representing the desc (e.g. in
+                tooltips) -->
+<!ELEMENT desc (#PCDATA)>
+<!ATTLIST desc
+  %attrs;
+  >

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml>
+
+<stream id="a1" basetime="5.000">
+<import contenttype="audio/x-wav" src="00-3-18.wav" start="npt:0.000"/>
+</stream>
+
+<head lang="en">
+<title>Buried dams of water</title>
+</head>
+

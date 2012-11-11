@@ -1,0 +1,101 @@
+libcmml 0.9.0 Release
+---------------------
+
+libcmml is a C library that provides a complete programming
+interface including functions, data structures, and sloppy or
+strict error handling to parse a XML file in CMML. CMML is the
+Continuous Media Markup Language defined as part of the Continuous
+Media Web project (see http://www.annodex.net/software/libcmml).
+
+This release is available as a source tarball at
+http://www.annodex.net/software/libcmml/download/libcmml-0.9.0.tar.gz
+
+New in this release:
+
+	* supports CMML 2.1, which includes
+          - link tags in the head tag
+          - class and title tags for most major elements
+          - basetime as a replacement for timebase (which is deprecated)
+
+        * new API function: cmml_time_new_secs
+
+        * new command line tool: cmml-timeshift
+
+About libcmml
+-------------
+
+	* API documentation, with comprehensive examples
+
+	* Developed and tested on GNU/Linux, Darwin/MacOSX and Win32. May
+	work on other Unix-like systems via GNU autoconf. For Win32: nmake
+	Makefiles, Visual Studio .NET 2003 solution files and Visual C++ 6.0
+	workspace files are provided in the source distribution.
+
+	* A simple, callback based open/read/close or open/write/close
+	interface to CMML files.
+
+
+Tools
+-----
+
+The libcmml source distribution comprises the C library libcmml
+and the following command-line tools:
+
+    * cmml-validate, which takes as input a CMML file and tests it
+
+    * cmml-fix, which fixes a sloppily written input CMML and creates
+      a valid one if possible
+
+    * cmml-fortune, which creates a valid CMML file with random content
+
+    * cmml-timeshift, which reads a CMML files and creates another one
+      where all the clip tags are delayed by a time offset in seconds
+
+Full documentation of the libcmml API, customization and installation,
+and reading and writing examples can be read online at:
+
+    http://www.annodex.net/software/libcmml/html/
+
+
+Features
+--------
+
+This version of libcmml supports CMML 2.0.
+It has the following features:
+
+ * html-like markup language for audio, video, and other
+   time-continuous data files (call them "media files")
+ * provides markup to structure an input media file into clips by
+   identification of time intervals
+ * URI hyperlinking to clips is possible
+ * provides structured annotations (meta tags) and unstructed
+   annotations (free text) both for the complete media file and each
+   clips
+ * URI hyperlinks from clips to other Web resources possible
+ * URI hyperlinks from clips to representative images (keyframes)
+   possible
+ * internationalisation (i18n) support for markup
+ * multi-track composition directions for media files from several
+   input media files possible
+ * several tracks of annotations (multi-track annotations) possible
+ * arbitrarily high temporal resolution for annotation and media
+   tracks
+ * non-zero timbase association with media files possible
+ * wall-clock time association with media files possible
+
+
+License
+-------
+
+libcmml is Free Software, available under a BSD style license.
+
+More information is available online at the libannodex homepage:
+
+    http://www.annodex.net/software/libcmml/
+
+enjoy :)
+
+--
+Silvia Pfeiffer
+Research Scientist, Continuous Media Web, CSIRO Australia
+http://www.annodex.net/   http://www.ict.csiro.au/cmweb/

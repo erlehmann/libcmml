@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE cmml SYSTEM "cmml.dtd">
+
+<cmml lang="pl">
+
+<stream basetime="npt:0">
+  <import contenttype="video/mpeg" src="fish.mpg" start="npt:0"/>
+</stream>
+
+<head lang="en" dir="ltr" profile="http://www.annodex.net/profile.tst">
+  <title lang="en" dir="ltr" id="fishtitle">Types of fish</title>
+  <base id="base" href="http://www.annodex.net/"/>
+  <meta name="Producer" content="Joe Ordinary"/>
+  <meta name="DC.Author" content="Joe's friend"/>
+  <meta id="dc" lang="en" dir="ltr" name="DC.DESCRIPTION" 
+        content="A composition of fish" scheme="Dublin Core"/>
+  <link id="linktest" lang="en" dir="ltr" title="test the link tag"
+        class="head.link" href="i18n.css" type="stylesheet"
+        rel="stylesheet" rev="dunno" media="screen"/>
+</head>
+
+<clip lang="de" id="intro" start="npt:0">
+  <a href="http://www.blah.au/fish.html">Lesen Sie mehr &#252;ber Fische.</a>
+  <desc lang="en">This is the introduction to the film Joe made about fish.</desc>
+</clip>
+
+<clip lang="en" id="goldfish" start="npt:5:5.9">
+  <a class="clip.a" title="there's always more fish"
+     href="http://www.blah.au/morefish.anx?id=goldfish">More video clips on goldfish.</a>
+  <img class="clip.img" title="sweety" src="http://www.blah.au/goldfish.jpg"/>
+  <desc class="clip.desc" title="tanked fish">Joe has a fishtank at home with many colourful fish. The common goldfish is one of them and Joe's favourite. Here are some fabulous pictures he has taken of them.</desc>
+  <meta name="Location" content="Joe's fishtank"/>
+  <meta name="Subject" content="goldfish"/>
+  <meta lang="fr" name="sujet" content="poisson d'or"/>
+</clip>
+
+</cmml>
